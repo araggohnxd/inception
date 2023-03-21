@@ -33,26 +33,20 @@ y
 y
 __EOF
 
-    # # Grants all privileges on all databases and tables to the root user, and set it's password
-    # # Flush privileges is used to update MariaDB's privilege table with the newly made changes
-    # mysql -e "GRANT ALL ON *.* TO '$DB_ROOT_USER'@'%' IDENTIFIED BY '$DB_ROOT_PASS'; FLUSH PRIVILEGES;"
-
-    # # Creates a new database with the name specified in the .env file, if it doesn't already exists
-    # mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
-
-    # # Grants all privileges on all databases and tables to the common user, and set it's password
-    # # Flush privileges, read above
-    # mysql -e "GRANT ALL ON $DB_NAME.* TO '$DB_USER_USER'@'%' IDENTIFIED BY '$DB_USER_PASS'; FLUSH PRIVILEGES;"
-
-    # # Imports the database backup from the dump file, generated previously with all configurations already set
-    # mysql -u $DB_ROOT_USER -p $DB_ROOT_PASS $DB_NAME < ./dump.sql
-
-
+    # Creates a new database with the name specified in the .env file, if it doesn't already exists
     mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+
+    # Grants all privileges on all databases and tables to the root user, and set it's password
     mysql -e "GRANT ALL ON *.* TO '$DB_ROOT_USER'@'%' IDENTIFIED BY '$DB_ROOT_PASS';"
+    
+    # Grants all privileges on WordPress' database to the common user, and set it's password
     mysql -e "GRANT ALL ON $DB_NAME.* TO '$DB_USER_USER'@'%' IDENTIFIED BY '$DB_USER_PASS';"
+    
+    # Flush privileges is used to update MariaDB's privilege table with the newly made changes
     mysql -e "FLUSH PRIVILEGES;"
-    mysql -u $DB_ROOT_USER -p $DB_ROOT_PASS $DB_NAME < /tmp/dump.sql
+
+    # Imports the database backup from the dump file, generated previously with all configurations already set
+    mysql -u$DB_ROOT_USER -p$DB_ROOT_PASS $DB_NAME < /tmp/dump.sql
 fi
 
 # Terminates MySQL daemon

@@ -1,11 +1,5 @@
 FROM debian:buster
 
-# Define build-time environment variables
-ARG DB_NAME
-ARG DB_HOST
-ARG DB_ROOT_USER
-ARG DB_ROOT_PASS
-
 # Set the working directory to /var/www/html, which is WordPress' default
 WORKDIR /var/www/html
 

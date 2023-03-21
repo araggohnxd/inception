@@ -31,7 +31,7 @@ $(VOLUME_PATH):
 	mkdir -p $@
 
 clean: down
-	docker-compose --file $(DOCKER_COMPOSE_FILE) rm --volumes --stop --force
+	docker-compose --file $(DOCKER_COMPOSE_FILE) rm -f -s -v
 
 fclean: clean
 	docker system prune --volumes --all --force
