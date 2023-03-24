@@ -11,14 +11,14 @@ DOCKER_COMPOSE_FILE := $(DOCKER_PATH)/docker-compose.yml
 all: up
 
 up: | $(VOLUME_PATH)
-	cat /etc/hosts | grep $(DOMAIN_NAME) > /dev/null || \
+	@cat /etc/hosts | grep $(DOMAIN_NAME) > /dev/null || \
 	echo "127.0.0.1 $(DOMAIN_NAME)" | sudo tee /etc/hosts > /dev/null
 	docker-compose --file $(DOCKER_COMPOSE_FILE) up --build
 
 d: detach
 
 detach: | $(VOLUME_PATH)
-	cat /etc/hosts | grep $(DOMAIN_NAME) > /dev/null || \
+	@cat /etc/hosts | grep $(DOMAIN_NAME) > /dev/null || \
 	echo "127.0.0.1 $(DOMAIN_NAME)" | sudo tee /etc/hosts > /dev/null
 	docker-compose --file $(DOCKER_COMPOSE_FILE) up --build --detach
 
