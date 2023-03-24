@@ -18,12 +18,6 @@ if [ ! -f wp-config.php ]; then
     
     # Rename configuration file sample to default configuration file name
     mv wp-config-sample.php wp-config.php
-
-    # Add root (admin) user to WordPress, set the default URL and website title
-    wp core install --allow-root --url=$WP_URL --title=$WP_TITLE --admin_user=$WP_ROOT_USER --admin_password=$WP_ROOT_PASS --admin_email=$WP_ROOT_EMAIL
-
-    # Add second user (user) to Wordpress
-	wp user create --allow-root --role=author $WP_USER_USER $WP_USER_EMAIL --user_pass=$WP_USER_PASS
 fi
 
 # Execute any commands given to the container
