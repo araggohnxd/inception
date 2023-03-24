@@ -25,10 +25,10 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 # Copy php-fpm's configuration file to the appropriate path:
 # - This file is used by php-fpm to manage PHP processes;
 # - It contains settings such as number of child processes, user, group, port, etc.
-COPY ./www.conf /etc/php/7.3/fpm/pool.d/www.conf
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 # Copy setup script to local bin directory
-COPY ./setup.sh /usr/local/bin
+COPY ./tools/setup.sh /usr/local/bin
 
 # Change setup script permissions so it becomes executable
 RUN chmod +x /usr/local/bin/setup.sh

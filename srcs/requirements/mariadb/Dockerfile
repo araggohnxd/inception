@@ -13,13 +13,13 @@ RUN mkdir -p /var/run/mysqld && \
     chmod 777 /var/run/mysqld
 
 # Copy setup script to local bin directory
-COPY ./setup.sh /usr/local/bin
+COPY ./tools/setup.sh /usr/local/bin
 
 # Change setup script permissions so it becomes executable
 RUN chmod +x /usr/local/bin/setup.sh
 
 # Copy database dump file to temporary directory, since it will only be used once
-COPY ./dump.sql /tmp
+COPY ./conf/dump.sql /tmp
 
 # Expose port 3306 for communication with other containers
 EXPOSE 3306

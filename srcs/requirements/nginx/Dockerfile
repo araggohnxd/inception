@@ -30,7 +30,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -subj "/C=BR/ST=SP/L=Sao Paulo/O=42 School/CN=maolivei.42.fr"
 
 # Copy the nginx configuration file to nginx's default configuration directory
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 443 for communication with the web and other containers
 EXPOSE 443
