@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set shell script directives:
+# - e: exit with non-zero value if any command inside script fails
+# - x: output each and every command to stdout
 set -xe
 
 # If Redis isn't already configured

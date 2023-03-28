@@ -17,7 +17,7 @@ RUN mkdir -p /run/php
 
 # Install wp-cli:
 # - This tool is a command-line interface for managing WordPress installations;
-# - It allows operations such as updating plugins and themes, managing users, 
+# - It allows operations such as updating plugins and themes, managing users,
 #   performing backups, etc.
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp && \
@@ -43,5 +43,5 @@ ENTRYPOINT ["setup.sh"]
 # Run php-fpm with -F option*
 CMD ["php-fpm7.3", "-F"]
 
-# *The -F option tells php-fpm7.3 to run in the foreground, 
+# *The -F option tells php-fpm7.3 to run in the foreground,
 # which means that it will log messages to the standard output and error streams normally.
