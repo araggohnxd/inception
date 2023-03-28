@@ -13,17 +13,28 @@ if [ ! -f wp-config.php ] || ! grep -q "inception config done" wp-config.php; th
         mv wp-config-sample.php wp-config.php
     fi
 
+    # Set database configuration variables inside WordPress' configuration file
     wp config set DB_NAME $DB_NAME --allow-root
     wp config set DB_HOST $DB_HOST --allow-root
     wp config set DB_USER $DB_USER_USER --allow-root
     wp config set DB_PASSWORD $DB_USER_PASS --allow-root
+
+    # Set Redis configuration variables inside WordPress' configuration file
     wp config set WP_REDIS_HOST redis --allow-root
     wp config set WP_REDIS_PORT 6379 --raw --allow-root
     wp config set WP_CACHE_KEY_SALT $DOMAIN_NAME --allow-root
+
+    # Install Redis plugin
     wp plugin install redis-cache --activate --allow-root
+
+    # Update all WordPress plugins
     wp plugin update --all --allow-root
+
+    # Enable Redis plugin
     wp redis enable --allow-root
-    echo "/* inception config done */" >> wp-config.php
+
+    # Add line to WordPress configuration file to ensure that configuration is finished in case container crashes
+    echo "\n/* inception config done */" >> wp-config.php
 fi
 
 # Execute any commands given to the container
