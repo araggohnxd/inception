@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Set shell script directives:
 # - e: exit with non-zero value if any command inside script fails
