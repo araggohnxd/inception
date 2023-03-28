@@ -27,10 +27,10 @@ services:
       - .env
     volumes:
       - wordpress-files:/var/www/html
-      - wordpress-database:/var/lib/mysql
     restart: on-failure
     depends_on:
       - mariadb
+      - redis
     networks:
       - inception
 
@@ -44,6 +44,16 @@ services:
       - .env
     volumes:
       - wordpress-database:/var/lib/mysql
+    restart: on-failure
+    networks:
+      - inception
+
+  redis:
+    container_name: redis
+    image: redis
+    build:
+      context: ./bonus/redis
+      dockerfile: Dockerfile
     restart: on-failure
     networks:
       - inception

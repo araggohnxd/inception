@@ -5,19 +5,25 @@
 # - x: output each and every command to stdout
 set -xe
 
-# If WordPress isn't already installed
-if [ ! -f wp-config.php ]; then
-    # Install WordPress using wp-cli
-    wp core download --allow-root
+# If WordPress isn't already configured
+if [ ! -f wp-config.php ] || ! grep -q "inception config done" wp-config.php; then
+    # Check if WordPress files already exist, and if not, install them
+    if wp core download --allow-root 2> /dev/null; then
+        # Rename configuration sample file to default configuration file name
+        mv wp-config-sample.php wp-config.php
+    fi
 
-    # Set the correct database related variable values to WordPress' configuration file sample
-    sed -i "s/database_name_here/$DB_NAME/g" wp-config-sample.php
-    sed -i "s/localhost/$DB_HOST/g" wp-config-sample.php
-    sed -i "s/username_here/$DB_USER_USER/g" wp-config-sample.php
-    sed -i "s/password_here/$DB_USER_PASS/g" wp-config-sample.php
-    
-    # Rename configuration file sample to default configuration file name
-    mv wp-config-sample.php wp-config.php
+    wp config set DB_NAME $DB_NAME --allow-root
+    wp config set DB_HOST $DB_HOST --allow-root
+    wp config set DB_USER $DB_USER_USER --allow-root
+    wp config set DB_PASSWORD $DB_USER_PASS --allow-root
+    wp config set WP_REDIS_HOST redis --allow-root
+    wp config set WP_REDIS_PORT 6379 --raw --allow-root
+    wp config set WP_CACHE_KEY_SALT $DOMAIN_NAME --allow-root
+    wp plugin install redis-cache --activate --allow-root
+    wp plugin update --all --allow-root
+    wp redis enable --allow-root
+    echo "/* inception config done */" >> wp-config.php
 fi
 
 # Execute any commands given to the container
