@@ -3,7 +3,7 @@ FROM debian:buster
 # Install packages:
 # - redis: required, redis itself
 RUN apt-get update && \
-    apt-get install redis -y
+    apt-get install -y redis
 
 # Copy setup script to local bin directory
 COPY ./tools/setup.sh /usr/local/bin
@@ -17,7 +17,7 @@ EXPOSE 6379
 # Set entrypoint to be setup script
 ENTRYPOINT ["setup.sh"]
 
-# Run redis daemon with protected mode disabled*
+# Start Redis server with protected mode disabled*
 CMD ["redis-server", "--protected-mode", "no"]
 
 # *By default, redis enables protected mode, which prevents connections from external addresses.
