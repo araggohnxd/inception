@@ -78,6 +78,20 @@ services:
     networks:
       - inception
 
+  adminer:
+    container_name: adminer
+    image: adminer
+    build:
+      context: ./bonus/adminer
+      dockerfile: Dockerfile
+    restart: on-failure
+    expose:
+      - "9000"
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+
 volumes:
   wordpress-files:
     driver: local
