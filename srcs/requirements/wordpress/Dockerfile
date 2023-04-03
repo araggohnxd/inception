@@ -23,10 +23,8 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
     mv wp-cli.phar /usr/local/bin/wp && \
     chmod +x /usr/local/bin/wp
 
-# Copy php-fpm's configuration file to the appropriate path:
-# - This file is used by php-fpm to manage PHP processes;
-# - It contains settings such as number of child processes, user, group, port, etc.
-COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+# Alter PHP configuration file so it listens on port 9000
+RUN echo "\nlisten = 0.0.0.0:9000" >> /etc/php/7.3/fpm/pool.d/www.conf
 
 # Copy setup script to local bin directory
 COPY ./tools/setup.sh /usr/local/bin
