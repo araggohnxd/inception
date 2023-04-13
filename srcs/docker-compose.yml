@@ -90,6 +90,20 @@ services:
     networks:
       - inception
 
+  dozzle:
+    container_name: dozzle
+    image: dozzle
+    build:
+      context: ./bonus/dozzle
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: on-failure
+    networks:
+      - inception
+
 volumes:
   wordpress-files:
     driver: local
