@@ -11,7 +11,7 @@ services:
       - "443:443"
     volumes:
       - wordpress-files:/var/www/html
-    restart: on-failure
+    restart: always
     depends_on:
       - wordpress
     networks:
@@ -27,7 +27,7 @@ services:
       - .env
     volumes:
       - wordpress-files:/var/www/html
-    restart: on-failure
+    restart: always
     depends_on:
       - mariadb
       - redis
@@ -44,7 +44,7 @@ services:
       - .env
     volumes:
       - wordpress-database:/var/lib/mysql
-    restart: on-failure
+    restart: always
     networks:
       - inception
 
@@ -54,7 +54,7 @@ services:
     build:
       context: ./bonus/redis
       dockerfile: Dockerfile
-    restart: on-failure
+    restart: always
     networks:
       - inception
 
@@ -72,7 +72,7 @@ services:
       - "1024-1048:1024-1048"
     volumes:
       - wordpress-files:/var/www/html
-    restart: on-failure
+    restart: always
     depends_on:
       - wordpress
     networks:
@@ -84,7 +84,7 @@ services:
     build:
       context: ./bonus/adminer
       dockerfile: Dockerfile
-    restart: on-failure
+    restart: always
     depends_on:
       - mariadb
     networks:
@@ -100,7 +100,7 @@ services:
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    restart: on-failure
+    restart: always
     networks:
       - inception
 
