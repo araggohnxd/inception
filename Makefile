@@ -37,4 +37,11 @@ prune: fclean
 	sudo rm -rf $(VOLUME_PATH)
 	docker system prune --all --volumes --force
 
-.PHONY: all up d detach clean fclean re prune
+purge: prune
+	docker stop $(docker ps -qa) 2> /dev/null || true
+	docker rm $(docker ps -qa) 2> /dev/null || true
+	docker rmi -f $(docker images -qa) 2> /dev/null || true
+	docker volume rm $(docker volume ls -q) 2> /dev/null || true
+	docker network rm $(docker network ls -q) 2> /dev/null || true
+
+.PHONY: all up d detach clean fclean re prune purge
