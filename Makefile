@@ -22,24 +22,19 @@ detach: | $(VOLUME_PATH)
 	echo "127.0.0.1 $(DOMAIN_NAME)" | sudo tee /etc/hosts > /dev/null
 	docker-compose --file $(DOCKER_COMPOSE_FILE) up --build --detach
 
-down:
-	docker-compose --file $(DOCKER_COMPOSE_FILE) down
-
 $(VOLUME_PATH):
 	sudo mkdir -p $@
 
-clean: down
-	docker-compose --file $(DOCKER_COMPOSE_FILE) rm -f -s -v
+clean:
+	docker-compose --file $(DOCKER_COMPOSE_FILE) down
 
 fclean: clean
-	sudo rm -rf $(VOLUME_PATH)
-	@(docker stop $$(docker ps -qa);\
-	docker rm $$(docker ps -qa);\
-	docker rmi -f $$(docker images -qa);\
-	docker volume rm $$(docker volume ls -q);\
-	docker network rm $$(docker network ls -q)) 2> /dev/null || \
-	return 0
+	docker-compose --file $(DOCKER_COMPOSE_FILE) rm -f -s -v
 
 re: fclean all
 
-.PHONY: all up d detach down clean fclean re
+prune: fclean
+	sudo rm -rf $(VOLUME_PATH)
+	docker system prune --all --volumes --force
+
+.PHONY: all up d detach clean fclean re prune
