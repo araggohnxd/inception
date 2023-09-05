@@ -25,10 +25,11 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
 
 # Install Go programming language from source, since the apt-get version
 # is older than the one required by Dozzle
-RUN wget https://go.dev/dl/go1.20.3.linux-amd64.tar.gz && \
-    tar xvf go1.20.3.linux-amd64.tar.gz && \
-    mv ./go /usr/local/go && \
-    rm go1.20.3.linux-amd64.tar.gz
+RUN export GO_VERSION=$(curl -s https://go.dev/dl/ | grep -o -m 1 'go[0-9.]\+.linux-amd64.tar.gz' | sed 's/go//' | sed 's/.linux-amd64.tar.gz//') && \
+    echo "https://dl.google.com/go/go$GO_VERSION.linux-amd64.tar.gz" && \
+    wget "https://dl.google.com/go/go$GO_VERSION.linux-amd64.tar.gz" && \
+    tar -C /usr/local -xzf "go$GO_VERSION.linux-amd64.tar.gz" && \
+    rm "go$GO_VERSION.linux-amd64.tar.gz"
 
 # Create Go's directory
 RUN mkdir -p $GOPATH
